@@ -7,13 +7,9 @@ int main() {
 
     sf::Event evnt;
     while (window.pollEvent(evnt)) {
-
-      switch (evnt.type) {
-
-      case sf::Event::Closed:
-          printf("It is closed \n");
+      if (evnt.type == sf::Event::Closed) {
+        printf("It is now closed");
         window.close();
-        break;
       }
     }
 
