@@ -40,7 +40,6 @@ public:
   virtual ~Element() = default;
 
   virtual void draw() = 0;
-  virtual bool isContainer() const { return false; }
 
   // Update the function declaration
   BoxModel getBoxModel();

@@ -7,7 +7,6 @@ class Container : public Element {
 public:
   explicit Container(sf::RenderWindow &wind);
   virtual ~Container() = default;
-  bool isContainer() const override { return true; }
   const std::vector<std::shared_ptr<Element>> &getChildren() const {
     return children;
   }
