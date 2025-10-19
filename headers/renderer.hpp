@@ -1,9 +1,9 @@
 #pragma once
-#include "./element.hpp"
 #include <SFML/Graphics.hpp>
 #include <vector>
 
 class Container;
+class Element;
 
 class Renderer {
 public:

@@ -2,6 +2,10 @@
 #include "../headers/container.hpp"
 #include <algorithm> // for std::sort
 
+void Renderer::addToGlobalDrawList(Element *element) {
+  globalDrawList.push_back(element);
+}
+
 void Renderer::setRoot(Container *rootComponent) {
   root = rootComponent;
   globalDrawList.push_back(root); // now compiler knows Container -> Element
@@ -20,12 +24,10 @@ void Renderer::flush() {
 
   // Draw each element in sorted order
   for (Element *el : globalDrawList) {
-    if (el && el->style.visible) {
+    if (el && el->style.visible)
       el->draw();
-    }
   }
 
   // Clear the draw list for the next frame
   globalDrawList.clear();
 }
-#include "../headers/renderer.hpp"

@@ -1,4 +1,5 @@
 #pragma once
+#include "./renderer.hpp"
 #include <SFML/Graphics.hpp>
 #include <string>
 
@@ -57,6 +58,17 @@ public:
 
   Container *getParent() const { return parent; }
   void setParent(Container *newParent) { parent = newParent; }
+
+  // PASS 1: update/layout. This should submit only absolute elements
+  virtual void update(Renderer &renderer) {
+    // Default: if element is absolute, submit it for later drawing
+    if (style.absZIndex >= 0) {
+      renderer.addToGlobalDrawList(this);
+      return; // don't recurse for absolute elements (they escape local
+              // stacking)
+    }
+    // otherwise default does nothing; containers override to handle children
+  }
 
   Styles style;
   BoxModel boxModel;
