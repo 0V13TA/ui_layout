@@ -1,10 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <memory>
 #include <string>
-#include <vector>
 
 using uint = unsigned int;
+
+class Container;
 
 struct Styles {
   std::string id = "";
@@ -25,9 +25,11 @@ struct Styles {
 };
 
 struct BoxModel {
+  // NOTE:             top right bottom left
   float border[4] = {0.0f, 0.0f, 0.0f, 0.0f};
   float margin[4] = {0.0f, 0.0f, 0.0f, 0.0f};
   float padding[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+  sf::Vector2f computedSize = {0.0f, 0.0f}; // {width, height}
 };
 
 enum class Axis { Horizontal, Vertical };
@@ -40,20 +42,33 @@ public:
   virtual void draw() = 0;
   virtual bool isContainer() const { return false; }
 
-  virtual void addChild(std::shared_ptr<Element> child);
-
   // Update the function declaration
-  float parseUnit(const std::string &unit, Axis axis);
   BoxModel getBoxModel();
+  float parseUnit(const std::string &unit, Axis axis) const;
 
-  const std::vector<std::shared_ptr<Element>> &getChildren() const {
-    return children;
-  }
+  // Get computed positions including margins/padding
+  sf::Vector2f getContentSize() const;
+  sf::FloatRect getContentRect() const;
+  sf::Vector2f getContentPosition() const;
+
+  // Get full bounds including margins
+  sf::FloatRect getMarginRect() const;
+  sf::FloatRect getBorderRect() const;
+  sf::FloatRect getPaddingRect() const;
+
+  Container *getParent() const { return parent; }
+  void setParent(Container *newParent) { parent = newParent; }
 
   Styles style;
+  BoxModel boxModel;
+  sf::Vector2f computedPosition = {0.0f, 0.0f};
 
 protected:
   sf::RenderWindow &window;
-  std::vector<std::shared_ptr<Element>> children;
-  Element *parent = nullptr;
+  Container *parent = nullptr;
+
+  // Helper methods for drawing box model
+  void drawBackground(const sf::FloatRect &rect, const sf::Color &color);
+  void drawBorder(const sf::FloatRect &rect, const sf::Color &color,
+                  float thickness);
 };
