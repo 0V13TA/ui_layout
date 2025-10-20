@@ -1,6 +1,7 @@
 #pragma once
 #include "./renderer.hpp"
 #include <SFML/Graphics.hpp>
+#include <array>
 #include <string>
 
 using uint = unsigned int;
@@ -26,10 +27,10 @@ struct Styles {
 };
 
 struct BoxModel {
-  // NOTE:             top right bottom left
-  float border[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-  float margin[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-  float padding[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+  // NOTE:           top right bottom left
+  std::array<float, 4> border = {0.0f, 0.0f, 0.0f, 0.0f};
+  std::array<float, 4> margin = {0.0f, 0.0f, 0.0f, 0.0f};
+  std::array<float, 4> padding = {0.0f, 0.0f, 0.0f, 0.0f};
   sf::Vector2f computedSize = {0.0f, 0.0f}; // {width, height}
 };
 
@@ -43,7 +44,7 @@ public:
   virtual void draw() = 0;
 
   // Update the function declaration
-  BoxModel getBoxModel();
+  const BoxModel getBoxModel();
   float parseUnit(const std::string &unit, Axis axis) const;
 
   // Get computed positions including margins/padding

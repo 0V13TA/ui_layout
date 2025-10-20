@@ -2,6 +2,8 @@
 #include "../headers/container.hpp"
 #include <algorithm> // for std::sort
 
+Renderer::Renderer() : root(nullptr) {}
+
 void Renderer::addToGlobalDrawList(Element *element) {
   globalDrawList.push_back(element);
 }

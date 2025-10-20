@@ -66,7 +66,7 @@ float Element::parseUnit(const std::string &unit, Axis axis) const {
   }
 }
 
-BoxModel Element::getBoxModel() {
+const BoxModel Element::getBoxModel() {
   // Calculate all box model values
   for (int i = 0; i < 4; i++) {
     boxModel.border[i] = parseUnit(
